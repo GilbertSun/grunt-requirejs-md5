@@ -1,0 +1,42 @@
+{
+  "name": "grunt-requirejs-md5",
+  "description": "use md5 to process requirejs config file",
+  "version": "0.0.0",
+  "homepage": "https://github.com/GilbertSun/grunt-requirejs-md5",
+  "author": {
+    "name": "GilbertSun",
+    "email": "szb4321@gmail.com",
+    "url": "http://gcore.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/GilbertSun/grunt-requirejs-md5.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GilbertSun/grunt-requirejs-md5/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/GilbertSun/grunt-requirejs-md5/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.9.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt": "~0.4.2"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.2"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
