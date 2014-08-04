@@ -1,7 +1,7 @@
 {
   "name": "grunt-requirejs-md5",
   "description": "use md5 to process requirejs config file",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/GilbertSun/grunt-requirejs-md5",
   "author": {
     "name": "GilbertSun",
