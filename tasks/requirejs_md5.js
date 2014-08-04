@@ -8,10 +8,18 @@
 
 'use strict';
 
+var fs = require('fs');
+var crypto = require('crypto');
+
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+  var md5 = function (filepath, algorithm, encoding, fileEncoding) {
+    var hash = crypto.createHash(algorithm);
+    grunt.log.verbose.write('Hashing ' + filepath + '...');
+    hash.update(grunt.file.read(filepath), fileEncoding);
+    return hash.digest(encoding);
+  };
+
 
   grunt.registerMultiTask('requirejs_md5', 'use md5 to process requirejs config file', function() {
     // Merge task-specific and/or target-specific options with these defaults.
@@ -20,7 +28,14 @@ module.exports = function(grunt) {
       separator: ', '
     });
 
-    // Iterate over all specified file groups.
+    this.files.forEach(function (f) {
+      f.src.forEach(function (filepath) {
+        if (grunt.file.exists(filepath)) {
+          console.log(md5(filepath, 'md5', 'hex', 'urf8'));
+        }
+      })
+    });
+    /*// Iterate over all specified file groups.
     this.files.forEach(function(f) {
       // Concat specified files.
       var src = f.src.filter(function(filepath) {
@@ -44,7 +59,7 @@ module.exports = function(grunt) {
 
       // Print a success message.
       grunt.log.writeln('File "' + f.dest + '" created.');
-    });
+    });*/
   });
 
 };
