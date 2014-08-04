@@ -31,6 +31,9 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     requirejs_md5: {
       md5: {
+        options: {
+          mapFile: './test/map.json'
+        },
         src: ['test/fixtures/*.js']
       }
     },

@@ -8,58 +8,40 @@
 
 'use strict';
 
-var fs = require('fs');
 var crypto = require('crypto');
+var path = require('path');
 
 module.exports = function(grunt) {
 
-  var md5 = function (filepath, algorithm, encoding, fileEncoding) {
-    var hash = crypto.createHash(algorithm);
+  var md5 = function (filepath, encoding) {
+    var hash = crypto.createHash('md5');
     grunt.log.verbose.write('Hashing ' + filepath + '...');
-    hash.update(grunt.file.read(filepath), fileEncoding);
+    hash.update(grunt.file.read(filepath));
     return hash.digest(encoding);
   };
 
 
   grunt.registerMultiTask('requirejs_md5', 'use md5 to process requirejs config file', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      punctuation: '.',
-      separator: ', '
+      out: 'dist',
+      length: 8,
+      mapFile: 'md5.json'
     });
 
-    this.files.forEach(function (f) {
-      f.src.forEach(function (filepath) {
-        if (grunt.file.exists(filepath)) {
-          console.log(md5(filepath, 'md5', 'hex', 'urf8'));
+    this.files.forEach(function (filePair) {
+      var md5Map = {};
+      filePair.src.forEach(function (f) {
+        if (!grunt.file.exists(f)) {
+          grunt.log.warn('Source file "' + f + '" not found.');
+          return;
         }
-      })
+        var md5String = md5(f, 'hex');
+        var prefix = md5String.slice(0, options.length);
+        var outFile = path.resolve(path.dirname(f), options.out, [prefix, path.basename(f)].join('.'));
+        grunt.file.copy(f, outFile);
+        md5Map[f] = path.relative(path.dirname(f), outFile);
+      });
+      grunt.file.write(options.mapFile, JSON.stringify(md5Map, null, '  '));
     });
-    /*// Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
-
-      // Handle options.
-      src += options.punctuation;
-
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
-    });*/
   });
-
 };
