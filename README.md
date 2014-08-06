@@ -26,10 +26,8 @@ In your project's Gruntfile, add a section named `requirejs_md5` to the data obj
 grunt.initConfig({
   requirejs_md5: {
     options: {
-      // Task-specific options go here.
     },
     your_target: {
-      // Target-specific file lists and/or options go here.
     },
   },
 });
